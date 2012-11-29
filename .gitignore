@@ -4,3 +4,7 @@ venv
 /Scripts
 /Include
 /Lib
+bin/
+lib/
+include/
+local/
