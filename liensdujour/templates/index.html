@@ -1,0 +1,71 @@
+{# liensdujour/templates/index.html: #}
+{% extends "layout.html" %}
+
+{% block timeline %}
+    <div class="timeline">
+    {% for tweet in tweets %}
+
+        {% if print_date(tweet['timestamp']) %}
+            {% if not loop.first %}
+                </ul>
+            {% endif %}
+
+            <h6 class="date">
+                {{ tweet['timestamp']|get_datefr('%A %d %B') }}
+                {% if is_timestamp_today(tweet['timestamp']) %}
+                    <span id="todaylabel" class="label label-success">Aujourd'hui</span>
+                {% endif %}
+            </h6>
+            <ul>
+        {% endif %}
+
+        <li>
+            {{ tweet['tweet']['0']|clickable|safe }}
+            <span class="posted-at">Posté à 
+                <a data-original-title="Tweet" href="https://twitter.com/#!/liensdujour/status/{{ tweet['id']['0'] }}">
+                    {{ tweet['timestamp']|get_datefr('%H:%M') }}
+                </a>
+            </span>
+        </li>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block pagination %}
+    <div class="pagination">
+        <ul>
+            <li class="prev
+                {% if params.pagination['prev'] %}
+                    "><a href="{{ params.pagination['site_address'] }}/{{ params.pagination['prev'] }}">
+                {% else %}
+                    disabled"><a>
+                {% endif %}
+                &larr; Précédent</a>
+            </li>
+            
+            <li class="active"><a>{{ params.pagination['active'] }}</a></li>
+                
+            {% if params.pagination['next'] %}
+                <li><a href="{{ params.pagination['site_address'] }}/{{ params.pagination['next'] }}">{{ params.pagination['next'] }}</a></li>
+            {% endif %}
+                
+            {% if params.pagination['after'] %}
+                <li><a href="{{ params.pagination['site_address'] }}/{{ params.pagination['after'] }}">{{ params.pagination['after'] }}</a></li>
+            {% endif %}
+                
+            {% if params.pagination['teasing'] %}
+                <li class="disabled"><a>…</a></li>
+            {% endif %}
+            
+            <li class="next
+                {% if params.pagination['next'] %}
+                    "><a href="{{ params.pagination['site_address'] }}/{{ params.pagination['next'] }}">
+                {% else %}
+                    disabled"><a>
+                {% endif %}
+                Suivant &rarr;</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

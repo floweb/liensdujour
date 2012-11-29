@@ -1,0 +1,44 @@
+{# liensdujour/templates/layout.html: #}
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="{{ params.description }}">
+        <meta name="robots" content="all">
+        <link rel="stylesheet" media="all" href="static/css/main.css">
+        <link rel="shortcut icon" href="static/img/favicon.ico">
+        <link rel="icon" href="static/img/favicon.png">
+        <title>{{ params.twitter_name }} - @{{ params.twitter_user }}</title>
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li>
+                                <a href="https://twitter.com/#!/{{ params.twitter_user }}">
+                                    <img src="{{ params.profile_image_url }}" 
+                                    alt="{{ params.twitter_user }}'s profile pic">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="header-home" href="https://twitter.com/#!/{{ params.twitter_user }}">@{{ params.twitter_user }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page">
+            <div class="container">
+                {% block timeline %}
+                {% endblock %}
+                
+                {% block pagination %}
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
