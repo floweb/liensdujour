@@ -9,6 +9,7 @@ import math
 from flask import Flask, render_template, redirect
 import pymongo
 import twitter_text
+from werkzeug.contrib.fixers import ProxyFix
 
 # Configuration
 config = dict()
@@ -84,7 +85,7 @@ def get_datefr(timestamp, pattern='%A %d %B'):
     """ Get strftime_fr for timestamp following the given pattern
         /!\ get_datefr is also used by print_date()
     """
-    locale.setlocale(locale.LC_ALL, 'fra_fra')
+    locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
     # .replace to deal with encoding hell
     return (datetime.datetime.fromtimestamp(timestamp).strftime(pattern)
                     .replace('\xFB', 'u').replace('\xE9', 'e'))
@@ -158,6 +159,9 @@ def get_collection(connection=None):
         print 'Error: Unable to select Collection'
         collection = None
     return collection
+
+# Gunicorn
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # Fire up the server
 if __name__ == '__main__':
