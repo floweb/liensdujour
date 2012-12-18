@@ -88,7 +88,8 @@ def get_datefr(timestamp, pattern='%A %d %B'):
     locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
     # .replace to deal with encoding hell
     return (datetime.datetime.fromtimestamp(timestamp).strftime(pattern)
-                    .replace('\xFB', 'u').replace('\xE9', 'e'))
+                    .replace('\xFB', 'u').replace('\xE9', 'e')
+                    .replace('\xC3\xA9', 'e'))
 
 
 @app.template_filter('clickable')
